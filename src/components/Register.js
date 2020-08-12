@@ -1,25 +1,31 @@
 import React from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+} from "@material-ui/core";
+
+import { useDispatch } from 'react-redux'
+import { nanoid } from '@reduxjs/toolkit'
+
+import {userAdded} from "../features/usersSlice";
+
+
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Alert from "@material-ui/lab/Alert";
+import { Alert } from "@material-ui/lab";
 import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     marginTop: theme.spacing(1),
-    "& > * + *": {
-      marginTop: theme.spacing(1),
-    },
   },
   paper: {
     marginTop: theme.spacing(8),
@@ -43,7 +49,21 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
   const { register, handleSubmit, watch, errors } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const dispatch = useDispatch();
+
+  const onSubmit=(data)=>{
+      const {firstName,lastName,email,password,birthday} = data;
+      dispatch(
+          userAdded({
+              id:nanoid(),
+              firstName,
+              lastName,
+              email,
+              password,
+              birthday
+          })
+      )
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -82,7 +102,7 @@ export default function SignUp() {
                 )}
                 {errors.firstName && errors.firstName.type === "pattern" && (
                   <Alert severity="error">
-                    Must be at least 2 letters and start with capital
+                    Must be at least 2 letters and start with a capital letter
                   </Alert>
                 )}
               </div>
@@ -107,7 +127,7 @@ export default function SignUp() {
                 )}
                 {errors.lastName && errors.lastName.type === "pattern" && (
                   <Alert severity="error">
-                    Must be at least 2 letters and start with capital
+                    Must be at least 2 letters and start with a capital letter
                   </Alert>
                 )}
               </div>
@@ -206,8 +226,7 @@ export default function SignUp() {
           </Grid>
         </form>
       </div>
-      <Box mt={5}>
-      </Box>
+      <Box mt={5}></Box>
     </Container>
   );
 }
