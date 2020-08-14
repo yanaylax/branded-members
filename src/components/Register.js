@@ -1,4 +1,5 @@
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -11,16 +12,17 @@ import {
   Container,
 } from "@material-ui/core";
 
-import { useDispatch } from 'react-redux'
-import { nanoid } from '@reduxjs/toolkit'
+import { useDispatch } from "react-redux";
+import { nanoid } from "@reduxjs/toolkit";
 
-import {userAdded} from "../features/usersSlice";
-
+import { userAdded } from "../features/usersSlice";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import { Alert } from "@material-ui/lab";
 import { useForm } from "react-hook-form";
+
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(18),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -50,20 +52,21 @@ export default function SignUp() {
   const classes = useStyles();
   const { register, handleSubmit, watch, errors } = useForm();
   const dispatch = useDispatch();
+  const users = useSelector((state) => state.users);
 
-  const onSubmit=(data)=>{
-      const {firstName,lastName,email,password,birthday} = data;
-      dispatch(
-          userAdded({
-              id:nanoid(),
-              firstName,
-              lastName,
-              email,
-              password,
-              birthday
-          })
-      )
-  }
+  const onSubmit = (data) => {
+    const { firstName, lastName, email, password, birthday } = data;
+    dispatch(
+      userAdded({
+        id: nanoid(),
+        firstName,
+        lastName,
+        email,
+        password,
+        birthday,
+      })
+    );
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -219,7 +222,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link component={RouterLink} to="/" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
