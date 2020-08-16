@@ -1,5 +1,5 @@
-import React from "react";
-import { Link as RouterLink } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
 
 import { userAdded } from "../features/usersSlice";
+import { login } from "../features/loggedSlice";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
@@ -54,18 +55,38 @@ export default function SignUp() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
 
+  const getAge = (DOB) => {
+    var today = new Date();
+    var birthDate = new Date(DOB);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age = age - 1;
+    }
+
+    return age;
+  };
+
   const onSubmit = (data) => {
     const { firstName, lastName, email, password, birthday } = data;
-    dispatch(
-      userAdded({
-        id: nanoid(),
-        firstName,
-        lastName,
-        email,
-        password,
-        birthday,
-      })
-    );
+    if (getAge(birthday) < 6 || getAge(birthday) > 140) {
+      return alert("illegal birthday entered");
+    }
+    users.map((user) => {
+      return user.email === email
+        ? alert("Email already exists, please sign in")
+        : dispatch(
+            userAdded({
+              id: nanoid(),
+              firstName,
+              lastName,
+              email,
+              password,
+              birthday,
+              age: getAge(birthday),
+            })
+          );
+    });
   };
 
   return (

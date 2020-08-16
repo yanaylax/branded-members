@@ -6,6 +6,8 @@ import LandingPage from "./components/LandingPage";
 import TopBar from "./components/TopBar";
 import Register from "./components/Register";
 import Shop from "./components/Shop";
+import ProductsPage from "./components/ProductsPage";
+import MembersPage from "./components/MembersPage";
 
 function App() {
   return (
@@ -13,6 +15,12 @@ function App() {
       <TopBar />
       <div>
         <Switch>
+          <Route path="/members">
+            <MembersPage/>
+          </Route>
+          <Route path="/products">
+            <ProductsPage/>
+          </Route>
           <Route path="/register">
             <Register />
           </Route>

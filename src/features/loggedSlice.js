@@ -15,12 +15,16 @@ const loggedSlice = createSlice({
     logout(state) {
       return state = false;
     },
+    admin(state){
+        return state = "ADMIN"
+    }
   },
 });
 
 export const {
   login,
   logout,
+  admin
   
 } = loggedSlice.actions;
 

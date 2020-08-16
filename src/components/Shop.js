@@ -101,7 +101,7 @@ export default function Shop() {
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
           {shop
-            .filter((card) => card.name.includes(search))
+            .filter((card) => card.name.toLowerCase().includes(search.toLowerCase()))
             .sort(function (a, b) {
               return filterByPrice === "high-to-low"
                 ? b.price - a.price
@@ -121,7 +121,7 @@ export default function Shop() {
                     <Typography gutterBottom variant="h5" component="h2">
                       {card.name}
                     </Typography>
-                    <Typography>{`${card.price}$`}</Typography>
+                    <Typography variant="h6">{`$${card.price}`}</Typography>
                   </CardContent>
                   <CardActions className={classes.margin}>
                     <Modal />

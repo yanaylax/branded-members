@@ -18,7 +18,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import ClubDesc from "./ClubDesc";
 
 import { useStylesLogin } from "../hooks/useStyles";
-import { login, logout, current } from "../features/loggedSlice";
+import { login, logout, admin } from "../features/loggedSlice";
 
 import { useSelector } from "react-redux";
 
@@ -30,6 +30,9 @@ export default function SignInSide() {
   const dispatch = useDispatch();
 
   const logIn = (email, password) => {
+    if (email === "ADMIN" && password === "ADMIN") {
+      return dispatch(admin());
+    }
     users.map((user, index) => {
       return user.email === email && user.password === password
         ? dispatch(login({ index, users }))
@@ -38,6 +41,9 @@ export default function SignInSide() {
   };
 
   if (current) {
+    if (current === "ADMIN") {
+      return <Redirect to="/products" />;
+    }
     return <Redirect to="/shop" />;
   }
 
