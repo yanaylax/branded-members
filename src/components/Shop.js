@@ -32,12 +32,12 @@ export default function Shop() {
   const [search, setSearch] = useState("");
   const [filterByPrice, setFilterByPrice] = useState("");
 
-  //   if (!current) {
-  //     return <Redirect to="/" />;
-  //   }
+  if (!current) {
+    return <Redirect to="/" />;
+  }
 
   return (
-    <main>
+    <div>
       <div className={classes.heroContent}>
         <Container maxWidth="sm">
           <Typography
@@ -55,9 +55,7 @@ export default function Shop() {
             color="textSecondary"
             paragraph
           >
-            Something short and leading about the collection below—its contents,
-            the creator, etc. Make it short and sweet, but not too short so
-            folks don&apos;t simply skip over it entirely.
+            Welcome to Branded Members club! Feel free to enjoy everything that's available for purchase!
           </Typography>
           <div className={classes.heroButtons}>
             <Grid container spacing={2} justify="center">
@@ -101,7 +99,9 @@ export default function Shop() {
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
           {shop
-            .filter((card) => card.name.toLowerCase().includes(search.toLowerCase()))
+            .filter((card) =>
+              card.name.toLowerCase().includes(search.toLowerCase())
+            )
             .sort(function (a, b) {
               return filterByPrice === "high-to-low"
                 ? b.price - a.price
@@ -112,11 +112,7 @@ export default function Shop() {
             .map((card) => (
               <Grid item key={card.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
+                  
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {card.name}
@@ -124,13 +120,13 @@ export default function Shop() {
                     <Typography variant="h6">{`$${card.price}`}</Typography>
                   </CardContent>
                   <CardActions className={classes.margin}>
-                    <Modal />
+                    <Modal item={card}/>
                   </CardActions>
                 </Card>
               </Grid>
             ))}
         </Grid>
       </Container>
-    </main>
+    </div>
   );
 }

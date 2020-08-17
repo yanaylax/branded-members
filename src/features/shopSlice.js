@@ -26,9 +26,12 @@ const shopSlice = createSlice({
       const newShop = state.filter((item) => item.id !== id);
       return newShop;
     },
+    shopFromLocal(state,action){
+      return state=action.payload
+    }
   },
 });
 
-export const { itemAdded, itemRemoved } = shopSlice.actions;
+export const { itemAdded, itemRemoved, shopFromLocal } = shopSlice.actions;
 
 export default shopSlice.reducer;

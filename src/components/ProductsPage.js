@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+
 import AddItem from "./AddItem";
+
 import {
   Paper,
   Table,
@@ -21,7 +24,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
 
-import {  itemRemoved } from "../features/shopSlice";
+import { itemRemoved } from "../features/shopSlice";
 
 import { useStylesTable } from "../hooks/useStyles";
 
@@ -40,6 +43,7 @@ const columns = [
 export default function StickyHeadTable() {
   const dispatch = useDispatch();
   const shop = useSelector((state) => state.shop);
+  const current = useSelector((state) => state.logged);
 
   const classes = useStylesTable();
   const [page, setPage] = useState(0);
@@ -75,6 +79,14 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
+  if (!current) {
+    return <Redirect to="/" />;
+  } else if (current) {
+    if (current !== "ADMIN") {
+      return <Redirect to="/" />;
+    }
+  }
+
   return (
     <div className={classes.title}>
       <Container>
@@ -86,8 +98,9 @@ export default function StickyHeadTable() {
         >
           Product Management
         </Typography>
-        <Typography variant="h5"  color="textSecondary" paragraph>
-          On this page you can view the available items in the shop, add new ones or delete old ones.
+        <Typography variant="h5" color="textSecondary" paragraph>
+          On this page you can view the available items in the shop, add new
+          ones or delete old ones.
         </Typography>
       </Container>
       <div className={classes.button}>

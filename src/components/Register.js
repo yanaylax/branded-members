@@ -16,7 +16,6 @@ import { useDispatch } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
 
 import { userAdded } from "../features/usersSlice";
-import { login } from "../features/loggedSlice";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
@@ -67,26 +66,35 @@ export default function SignUp() {
     return age;
   };
 
+  const checkEmail = (data, exists) => {
+    const { firstName, lastName, email, password, birthday } = data;
+
+    return exists
+      ? alert("Email address already exists, please log in")
+      : dispatch(
+          userAdded({
+            id: nanoid(),
+            firstName,
+            lastName,
+            email,
+            password,
+            birthday,
+            age: getAge(birthday),
+          })
+        );
+  };
+
   const onSubmit = (data) => {
     const { firstName, lastName, email, password, birthday } = data;
+    let exists = false;
+
     if (getAge(birthday) < 6 || getAge(birthday) > 140) {
-      return alert("illegal birthday entered");
+      return alert("Illegal birthday entered");
     }
     users.map((user) => {
-      return user.email === email
-        ? alert("Email already exists, please sign in")
-        : dispatch(
-            userAdded({
-              id: nanoid(),
-              firstName,
-              lastName,
-              email,
-              password,
-              birthday,
-              age: getAge(birthday),
-            })
-          );
+      return user.email === email ? (exists = true) : user;
     });
+    checkEmail(exists, data);
   };
 
   return (

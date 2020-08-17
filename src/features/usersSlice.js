@@ -53,9 +53,12 @@ const usersSlice = createSlice({
       const newUsers = state.filter(user => user.id !== id)
       return newUsers;
     },
+    usersFromLocal(state,action){
+        return state=action.payload
+    }
   },
 });
 
-export const { userAdded, userRemoved } = usersSlice.actions;
+export const { userAdded, userRemoved, usersFromLocal } = usersSlice.actions;
 
 export default usersSlice.reducer;

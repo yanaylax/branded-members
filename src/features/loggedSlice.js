@@ -17,6 +17,9 @@ const loggedSlice = createSlice({
     },
     admin(state){
         return state = "ADMIN"
+    },
+    currentFromLocal(state,action){
+      return state=action.payload
     }
   },
 });
@@ -24,7 +27,8 @@ const loggedSlice = createSlice({
 export const {
   login,
   logout,
-  admin
+  admin,
+  currentFromLocal
   
 } = loggedSlice.actions;
 

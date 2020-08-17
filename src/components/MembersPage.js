@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AddItem from "./AddItem";
+import { Redirect } from "react-router-dom";
 import {
   Paper,
   Table,
@@ -9,15 +9,19 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Fab,
   Typography,
   Container,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
+  TextField,
+  InputAdornment,
 } from "@material-ui/core";
+
 import DeleteIcon from "@material-ui/icons/Delete";
+import Search from "@material-ui/icons/Search";
+
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -35,22 +39,18 @@ const columns = [
   { id: "lastName", label: "Last Name", minWidth: 100 },
   { id: "email", label: "Email", minWidth: 100 },
   { id: "DOB", label: "DOB", minWidth: 100, align: "right" },
-
-  //   {
-  //     id: "desc",
-  //     label: "Desc",
-  //     minWidth: 170,
-  //     align: "right",
-  //   },
 ];
 
 export default function StickyHeadTable() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
+  const current = useSelector((state) => state.logged);
 
   const classes = useStylesTable();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [filterByAge, setFilterByAge] = useState("");
+  const [userAge, setUserAge] = useState(0);
 
   const deleteUser = (id) => {
     return (
@@ -70,8 +70,13 @@ export default function StickyHeadTable() {
   };
 
   const rows = users
+    .filter((user) => user.age >= userAge)
     .sort(function (a, b) {
-      return a.age - b.age;
+      return filterByAge === "high-to-low"
+        ? b.age - a.age
+        : filterByAge === "low-to-high"
+        ? a.age - b.age
+        : a - b;
     })
     .map((user) =>
       createData(
@@ -92,6 +97,14 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
+  // if (!current) {
+  //   return <Redirect to="/" />;
+  // } else if (current) {
+  //   if (current !== "ADMIN") {
+  //     return <Redirect to="/" />;
+  //   }
+  // }
+
   return (
     <div className={classes.title}>
       <Container>
@@ -108,11 +121,26 @@ export default function StickyHeadTable() {
           them.
         </Typography>
       </Container>
-      <div className={classes.button}>
+      <div className={classes.filter}>
+        <TextField
+          onChange={(e) => setUserAge(e.target.value)}
+          className={classes.margin}
+          id="input-with-icon-textfield"
+          label="Filter By Age"
+          type="number"
+          variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+        />
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
           <Select
-            // onChange={(e) => setFilterByPrice(e.target.value)}
+            onChange={(e) => setFilterByAge(e.target.value)}
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
             label="Age"

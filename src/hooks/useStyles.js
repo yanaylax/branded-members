@@ -37,28 +37,31 @@ export const useStylesTable = makeStyles((theme) => ({
     maxHeight: 440,
   },
   add: {
-    margin: theme.spacing(1,4),
+    margin: theme.spacing(1, 4),
   },
   modal: {
-      margin: theme.spacing(1),
-      marginRight:theme.spacing(2)
+    margin: theme.spacing(1),
+    marginRight: theme.spacing(2),
   },
   grid: {
-      paddingRight: theme.spacing(2)
+    paddingRight: theme.spacing(2),
   },
   title: {
-      marginTop: theme.spacing(18),
+    marginTop: theme.spacing(18),
   },
   button: {
-      display:"flex",
-      justifyContent:"flex-end"
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  filter: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
   },
-  
-  
 }));
 
 export const useStylesShop = makeStyles((theme) => ({
@@ -107,7 +110,6 @@ export const useStylesClubDesc = makeStyles((theme) => ({
     margin: theme.spacing(10, 6),
   },
   title: {
-    fontSize: "4rem",
     fontWeight: "bold",
     marginBottom: theme.spacing(2),
   },
@@ -115,3 +117,5 @@ export const useStylesClubDesc = makeStyles((theme) => ({
     marginTop: theme.spacing(5),
   },
 }));
+
+

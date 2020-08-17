@@ -6,8 +6,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Link,
   Paper,
   Grid,
@@ -18,7 +16,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import ClubDesc from "./ClubDesc";
 
 import { useStylesLogin } from "../hooks/useStyles";
-import { login, logout, admin } from "../features/loggedSlice";
+import { login, admin } from "../features/loggedSlice";
 
 import { useSelector } from "react-redux";
 
@@ -97,10 +95,7 @@ export default function SignInSide() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+
             <Button
               type="submit"
               fullWidth

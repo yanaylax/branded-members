@@ -1,6 +1,12 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Link as RouterLink } from "react-router-dom";
+
+import {
+  makeStyles,
+  useTheme,
+  responsiveFontSizes,
+} from "@material-ui/core/styles";
 import {
   Drawer,
   CssBaseline,
@@ -13,14 +19,22 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Link,
+  Button,
 } from "@material-ui/core";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import HomeIcon from "@material-ui/icons/Home";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import StoreIcon from "@material-ui/icons/Store";
+
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
+import { logout } from "../features/loggedSlice";
 
 const drawerWidth = 240;
 
@@ -62,12 +76,22 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
   },
+  toolbar: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexGrow: 1,
+  },
+  branded: {
+    marginLeft: theme.spacing(2),
+  },
 }));
 
 export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
+  const current = useSelector((state) => state.logged);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -86,19 +110,40 @@ export default function PersistentDrawerLeft() {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Branded Members
-          </Typography>
+        <Toolbar className={classes.toolbar}>
+          <div>
+            {current ? (
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                className={clsx(classes.menuButton, open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+            ) : (
+              <div />
+            )}
+            <Link
+              style={{ textDecoration: "none" }}
+              color="inherit"
+              variant="h6"
+              component={RouterLink}
+              to="/"
+            >
+              <Button color="inherit" className={classes.branded}>
+                Branded Members
+              </Button>
+            </Link>
+          </div>
+          {current ? (
+            <Button onClick={() => dispatch(logout())} color="inherit">
+              LOGOUT
+            </Button>
+          ) : (
+            <div></div>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -121,26 +166,36 @@ export default function PersistentDrawerLeft() {
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
+          <Link
+            style={{ textDecoration: "none" }}
+            color="inherit"
+            variant="h6"
+            component={RouterLink}
+            to="/shop"
+          >
+            <ListItem button key="store">
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <StoreIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Store" />
             </ListItem>
-          ))}
+          </Link>
+          <Link
+            style={{ textDecoration: "none" }}
+            color="inherit"
+            variant="h6"
+            component={RouterLink}
+            to="/cart"
+          >
+            <ListItem button key="cart">
+              <ListItemIcon>
+                <ShoppingCartIcon />
+              </ListItemIcon>
+              <ListItemText primary="Cart" />
+            </ListItem>
+          </Link>
         </List>
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
     </div>
   );

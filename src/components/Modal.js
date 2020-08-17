@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { Button, Fab } from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
+import {
+  Button,
+  Fab,
+  Dialog,
+  
+  IconButton,
+  Typography,
+} from "@material-ui/core";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
+
+import { itemAdded, amountIncreased } from "../features/cartSlice";
+
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const styles = (theme) => ({
   root: {
@@ -54,14 +63,30 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
+export default function CustomizedDialogs({ item }) {
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  const [amount, setAmount] = useState(1);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const addItem = () => {
+    const { id, name, description, price } = item;
+    let itemExists = false;
+    cart.map((cartItem) => {
+      if (cartItem.id === id) {
+        itemExists = true;
+      }
+    });
+    return itemExists
+      ? dispatch(amountIncreased({ id, amount }))
+      : dispatch(itemAdded({ id, name, description, price, amount }));
   };
 
   return (
@@ -75,33 +100,48 @@ export default function CustomizedDialogs() {
         <AddIcon />
       </Fab>
       <Dialog
+        fullWidth
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Modal title
+          Review purchase
         </DialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+        <DialogContent
+          style={{ display: "flex", justifyContent: "space-around" }}
+          dividers
+        >
+          <div>
+            <Typography gutterBottom>{item.name}</Typography>
+            <Typography gutterBottom>{`Price: $${item.price}`}</Typography>
+            <Typography gutterBottom>{`Total: $${
+              item.price * amount
+            }`}</Typography>
+          </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Button
+              size="large"
+              onClick={() =>
+                setAmount((oldAmount) => {
+                  return oldAmount === 0 ? amount : amount - 1;
+                })
+              }
+            >
+              -
+            </Button>
+            <Typography dividers gutterBottom>
+              {amount}
+            </Typography>
+
+            <Button size="large" onClick={() => setAmount(amount + 1)}>
+              +
+            </Button>
+          </div>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Save changes
+          <Button autoFocus onClick={addItem} color="primary">
+            Add to cart
           </Button>
         </DialogActions>
       </Dialog>
