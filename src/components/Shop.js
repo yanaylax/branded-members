@@ -14,7 +14,6 @@ import {
   MenuItem,
   Select,
   FormControl,
-  FormLabel,
 } from "@material-ui/core";
 import Search from "@material-ui/icons/Search";
 
@@ -33,6 +32,10 @@ export default function Shop() {
   const [filterByPrice, setFilterByPrice] = useState("");
 
   if (!current) {
+    return <Redirect to="/" />;
+  }
+
+  if (current === "ADMIN") {
     return <Redirect to="/" />;
   }
 
@@ -55,7 +58,8 @@ export default function Shop() {
             color="textSecondary"
             paragraph
           >
-            Welcome to Branded Members club! Feel free to enjoy everything that's available for purchase!
+            Welcome to Branded Members club! Feel free to enjoy everything
+            that's available for purchase!
           </Typography>
           <div className={classes.heroButtons}>
             <Grid container spacing={2} justify="center">
@@ -112,7 +116,12 @@ export default function Shop() {
             .map((card) => (
               <Grid item key={card.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
-                  
+                  <CardMedia
+                    component="img"
+                    src={card.image}
+                    height="140"
+                    title="Image title"
+                  />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {card.name}
@@ -120,7 +129,7 @@ export default function Shop() {
                     <Typography variant="h6">{`$${card.price}`}</Typography>
                   </CardContent>
                   <CardActions className={classes.margin}>
-                    <Modal item={card}/>
+                    <Modal item={card} />
                   </CardActions>
                 </Card>
               </Grid>

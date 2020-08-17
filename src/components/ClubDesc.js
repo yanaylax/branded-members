@@ -11,21 +11,19 @@ export default function ClubDesc() {
       </Typography>
 
       <Typography variant="body1">
-        body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-        blanditiis tenetur unde suscipit, quam beatae rerum inventore
-        consectetur, neque doloribus, cupiditate numquam dignissimos laborum
-        fugiat deleniti? Eum quasi quidem quibusdam.
+        Hello and welcome potential member!
+        Our members have access to an endless amount of items (mostly edibles).
+        Feel free to join our club today!
+        Already a member? Sign in!
       </Typography>
       <Box className={classes.club}>
         <Typography className={classes.title} variant="h3">
-          {" "}
           Become a member
         </Typography>
         <Typography variant="body1">
-          body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-          blanditiis tenetur unde suscipit, quam beatae rerum inventore
-          consectetur, neque doloribus, cupiditate numquam dignissimos laborum
-          fugiat deleniti? Eum quasi quidem quibusdam.
+          Join our members club now to receive INCREDIBLE offerings on our products!
+          New items every.. certain amount of time? 
+          Don't worry, we got this!
         </Typography>
       </Box>
     </Box>

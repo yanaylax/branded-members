@@ -97,14 +97,15 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
-  // if (!current) {
-  //   return <Redirect to="/" />;
-  // } else if (current) {
-  //   if (current !== "ADMIN") {
-  //     return <Redirect to="/" />;
-  //   }
-  // }
+  if (!current) {
+    return <Redirect to="/" />;
+  }
 
+  if (current) {
+    if (current !== "ADMIN") {
+      return <Redirect to="/" />;
+    }
+  }
   return (
     <div className={classes.title}>
       <Container>

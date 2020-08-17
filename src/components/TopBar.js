@@ -2,18 +2,13 @@ import React from "react";
 import clsx from "clsx";
 import { Link as RouterLink } from "react-router-dom";
 
-import {
-  makeStyles,
-  useTheme,
-  responsiveFontSizes,
-} from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   Drawer,
   CssBaseline,
   AppBar,
   Toolbar,
   List,
-  Typography,
   Divider,
   IconButton,
   ListItem,
@@ -30,6 +25,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import HomeIcon from "@material-ui/icons/Home";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import StoreIcon from "@material-ui/icons/Store";
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -133,6 +129,7 @@ export default function PersistentDrawerLeft() {
               to="/"
             >
               <Button color="inherit" className={classes.branded}>
+                <HomeIcon />
                 Branded Members
               </Button>
             </Link>
@@ -165,36 +162,69 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </div>
         <Divider />
-        <List>
-          <Link
-            style={{ textDecoration: "none" }}
-            color="inherit"
-            variant="h6"
-            component={RouterLink}
-            to="/shop"
-          >
-            <ListItem button key="store">
-              <ListItemIcon>
-                <StoreIcon />
-              </ListItemIcon>
-              <ListItemText primary="Store" />
-            </ListItem>
-          </Link>
-          <Link
-            style={{ textDecoration: "none" }}
-            color="inherit"
-            variant="h6"
-            component={RouterLink}
-            to="/cart"
-          >
-            <ListItem button key="cart">
-              <ListItemIcon>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Cart" />
-            </ListItem>
-          </Link>
-        </List>
+        {current === "ADMIN" ? (
+          <List>
+            <Link
+              style={{ textDecoration: "none" }}
+              color="inherit"
+              variant="h6"
+              component={RouterLink}
+              to="/products"
+            >
+              <ListItem button key="products">
+                <ListItemIcon>
+                  <StoreIcon />
+                </ListItemIcon>
+                <ListItemText primary="Products" />
+              </ListItem>
+            </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              color="inherit"
+              variant="h6"
+              component={RouterLink}
+              to="/members"
+            >
+              <ListItem button key="members">
+                <ListItemIcon>
+                  <PeopleAltIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Members" />
+              </ListItem>
+            </Link>
+          </List>
+        ) : (
+          <List>
+            <Link
+              style={{ textDecoration: "none" }}
+              color="inherit"
+              variant="h6"
+              component={RouterLink}
+              to="/shop"
+            >
+              <ListItem button key="store">
+                <ListItemIcon>
+                  <StoreIcon />
+                </ListItemIcon>
+                <ListItemText primary="Store" />
+              </ListItem>
+            </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              color="inherit"
+              variant="h6"
+              component={RouterLink}
+              to="/cart"
+            >
+              <ListItem button key="cart">
+                <ListItemIcon>
+                  <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Cart" />
+              </ListItem>
+            </Link>
+          </List>
+        )}
         <Divider />
       </Drawer>
     </div>

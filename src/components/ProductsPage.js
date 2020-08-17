@@ -12,7 +12,6 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Fab,
   Typography,
   Container,
 } from "@material-ui/core";
@@ -81,7 +80,9 @@ export default function StickyHeadTable() {
 
   if (!current) {
     return <Redirect to="/" />;
-  } else if (current) {
+  }
+
+  if (current) {
     if (current !== "ADMIN") {
       return <Redirect to="/" />;
     }

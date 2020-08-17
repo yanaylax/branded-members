@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link as RouterLink, Redirect } from "react-router-dom";
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -66,23 +66,17 @@ export default function SignUp() {
     return age;
   };
 
-  const checkEmail = (data, exists) => {
+  const newUser = (data) => {
     const { firstName, lastName, email, password, birthday } = data;
 
-    return exists
-      ? alert("Email address already exists, please log in")
-      : dispatch(
-          userAdded({
-            id: nanoid(),
-            firstName,
-            lastName,
-            email,
-            password,
-            birthday,
-            age: getAge(birthday),
-          })
-        );
+    alert("Register succesful");
   };
+
+  // const checkEmail = (data, exists) => {
+  //   return exists
+  //     ?
+  //     : newUser(data);
+  // };
 
   const onSubmit = (data) => {
     const { firstName, lastName, email, password, birthday } = data;
@@ -92,9 +86,24 @@ export default function SignUp() {
       return alert("Illegal birthday entered");
     }
     users.map((user) => {
-      return user.email === email ? (exists = true) : user;
+      if (user.email === email) {
+        exists = true;
+      }
     });
-    checkEmail(exists, data);
+    if (exists) {
+      return alert("Email already exists, please log in");
+    }
+    return dispatch(
+      userAdded({
+        id: nanoid(),
+        firstName,
+        lastName,
+        email,
+        password,
+        birthday,
+        age: getAge(birthday),
+      })
+    );
   };
 
   return (

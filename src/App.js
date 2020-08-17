@@ -29,7 +29,6 @@ function App() {
     const storedUsers = localStorage.getItem("branded_users");
     const storedCurrent = localStorage.getItem("branded_current");
     const storedShop = localStorage.getItem("branded_shop");
-    const storedCart = localStorage.getItem(`branded_cart`);
 
     if (storedUsers) {
       dispatch(usersFromLocal(JSON.parse(storedUsers)));
@@ -40,10 +39,14 @@ function App() {
     if (storedShop) {
       dispatch(shopFromLocal(JSON.parse(storedShop)));
     }
+  }, []);
+
+  useEffect(() => {
+    const storedCart = localStorage.getItem(`branded_cart${current.id}`);
     if (storedCart) {
       dispatch(cartFromLocal(JSON.parse(storedCart)));
     }
-  }, []);
+  }, [current]);
 
   useEffect(() => {
     localStorage.setItem("branded_users", JSON.stringify(users));
@@ -57,7 +60,7 @@ function App() {
     localStorage.setItem("branded_shop", JSON.stringify(shop));
   }, [shop]);
   useEffect(() => {
-    localStorage.setItem(`branded_cart`, JSON.stringify(cart));
+    localStorage.setItem(`branded_cart${current.id}`, JSON.stringify(cart));
   }, [cart]);
 
   return (
@@ -81,7 +84,7 @@ function App() {
             <Shop />
           </Route>
           <Route path="/">
-            <Login/>
+            <Login />
           </Route>
         </Switch>
       </div>

@@ -80,10 +80,13 @@ export default function SpanningTable() {
   const invoiceTaxes = TAX_RATE * invoiceSubtotal;
   const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
-  if(!current) {
-    return <Redirect to="/"/>
+  if (!current) {
+    return <Redirect to="/" />;
   }
 
+  if (current === "ADMIN") {
+    return <Redirect to="/" />;
+  }
 
   return (
     <TableContainer component={Paper}>

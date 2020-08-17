@@ -25,6 +25,11 @@ export default function AlertDialog() {
     setOpen(false);
   };
 
+  const finishPurchase = () => {
+    dispatch(emptyCart());
+    handleClose();
+  };
+
   return (
     <div style={{ margin: "1em" }}>
       <ButtonGroup disableElevation variant="contained" color="primary">
@@ -45,11 +50,7 @@ export default function AlertDialog() {
           <Button onClick={handleClose} color="primary">
             Disagree
           </Button>
-          <Button
-            onClick={() => dispatch(emptyCart())}
-            color="primary"
-            autoFocus
-          >
+          <Button onClick={finishPurchase} color="primary" autoFocus>
             Agree
           </Button>
         </DialogActions>
