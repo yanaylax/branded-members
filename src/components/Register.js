@@ -93,7 +93,7 @@ export default function SignUp() {
     if (exists) {
       return alert("Email already exists, please log in");
     }
-    return dispatch(
+    dispatch(
       userAdded({
         id: nanoid(),
         firstName,
@@ -104,6 +104,7 @@ export default function SignUp() {
         age: getAge(birthday),
       })
     );
+    return alert("Registration successful! Please log in to continue");
   };
 
   return (

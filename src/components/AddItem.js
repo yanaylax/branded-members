@@ -137,7 +137,7 @@ export default function AlertDialog() {
                   variant="outlined"
                   fullWidth
                   className={classes.modal}
-                  label="Image"
+                  label="ImageURL"
                 />
               </Grid>
             </Grid>
